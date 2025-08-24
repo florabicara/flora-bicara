@@ -1,0 +1,63 @@
+{
+  "puspa": {
+    "namaUmum": "Puspa",
+    "namaIlmiah": "Schima wallichii (DC.) Korth",
+    "statusKonservasi": "Puspa masuk dalam kategori Least Concern (LC), artinya tumbuhan ini berisiko rendah terhadap kepunahan.",
+    "deskripsiSingkat": "Pohon hijau adaptif yang dikenal karena ketahanannya terhadap api dan kemampuannya merehabilitasi lahan kritis, konservasi tanah, dan pelindung tebing lereng di kawasan perbukitan.",
+    "gambar": {
+      "bunga": "images/puspa-bunga.jpg",
+      "daun": "images/puspa-daun.jpg",
+      "batang": "images/puspa-batang.jpg"
+    },
+    "morfologi": {
+      "judul": "Morfologi",
+      "konten": "Pohon hijau sepanjang tahun, tinggi 10-15 m, batang muda coklat keabu-abuan. Tangkai daun 1-2 cm, helai daun elips, 8-17.5 × 4-7.5 cm, permukaan mengkilap dan kaku, berwarna hijau tua di atas dan lebih pucat di bawah, tulang daun menyirip. Bunga duduk di ketiak daun, soliter atau tiga kuntum dalam satu klaster, putih, harum, diameter 3-4 cm. Kelopak bunga putih, bulat telur terbalik lebar, 1,5-2 × 1,5 cm. Benang sari 8-10 mm, bakal buah membulat, kepala putik berjumlah lima. Buah kapsul, coklat, beruang lima dengan masing-masing ruang terdapat dua biji."
+    },
+    "ekologi": {
+      "judul": "Ekologi & Habitat",
+      "konten": "Puspa tumbuh secara alami Asia, seperti Bhutan, China, India, Indonesia, Laos, Myanmar, Nepal, Papua Nugini, Filipina, Thailand, dan Vietnam. Di Indonesia, jenis ini tersebar di pulau Sumatra, Kalimantan, dan Jawa. Habitat alaminya berada pada ketinggian 300–2.700 meter di atas permukaan laut. Tumbuhan ini dapat berkembang dengan baik pada berbagai kondisi ekologis. Kendati jenis ini sering ditemukan di hutan pegunungan, namun tidak jarang ditemukan di padang rumput. Kemampuannya untuk tumbuh di tempat terbuka maupun terlindungi, sifatnya yang adaptif di lahan kritis, serta ketahanannya terhadap api, menjadikannya cocok untuk rehabilitasi hutan, konservasi tanah, dan pelindung tebing lereng di kawasan perbukitan."
+    },
+    "budidaya": {
+      "judul": "Budidaya Tanaman",
+      "konten": "Puspa dapat tumbuh optimal jika ditanam pada ketinggian 1950 dpl dan dapat tumbuh setinggi 20 cm dalam kurun 6-8 bulan. Kendati dapat tumbuh pada berbagai jenis tanah, jenis ini menyukai tempat yang teduh, lebih menyukai pH 5,0 – 6,5, dan tumbuh subur pada tanah dengan drainase baik. Pembibitan dapat dilakukan dengan terlebih dahulu merendam benih di dalam air hangat selama sekitar 12 jam. Setelah itu, benih ditanam dengan sedikit tanah di tempat teduh. Semai dapat dipindahkan ke dalam pot jika sudah mencapai 5-8 cm, dan dapat dipindahkan ke tempat terbuka setelah 20 cm. Biasanya pohon dapat berbunga dan berbuah setelah 4 tahun dengan variasi periode pembungaan 33 hingga 42 hari. Pada studi revegetasi Cagar Biosfer Cibodas, jenis ini menunjukkan indeks pertumbuhan 32,82 atau yang tertinggi dibandingkan jenis-jenis lainnya yang juga ditanam di lokasi tersebut. Buah atau biji akan berumur pendek jika diletakkan di ruang terbuka pada suhu ruang, tetapi buah atau biji kering akan dapat disimpan setidaknya hingga tiga bulan."
+    },
+    "manfaat": {
+      "judul": "Manfaat",
+      "konten": "Pohon ini cocok untuk reforestasi dan konservasi air, pohon peneduh untuk perkebunan kopi, dan vegetasi penutup pada perkebunan pinus dan damar. Kayu digunakan untuk konstruksi bangunan, bahan baku kertas, dan kayu bakar. Kulit kayu digunakan untuk pewarna serta digunakan sebagai ramuan antiseptik untuk mengobati luka. Kulit kayu dan daun mengandung senyawa aktif fenol dan flavonoid yang memiliki efek antibakteri dan antioksidan. Kelopak bunga bersifat astringen dan digunakan untuk gangguan rahim. Getah batang dimanfaatkan untuk infeksi telinga. Biji mengandung minyak."
+    },
+    "klasifikasi": {
+      "judul": "Klasifikasi",
+      "konten": "Regnum: Plantae, Phylum: Tracheophyta, Classis: Magnoliopsida, Ordo: Ericales, Familia: Theaceae, Genus: Schima, Species: Schima wallichii (DC.) Korth."
+    },
+    "referensi": {
+        "judul": "Referensi",
+        "konten": "Oldfield, S. 2018. Schima wallichii. The IUCN Red List of Threatened Species 2018.\nAlmadani, A. R., & W.G. Hermawan. 2023. Fenologi Perkembangan Diameter Dan Ketinggian Batang Tumbuhan Puspa... Nusantara Hasana Journal, 2(12): 152-157.\nHandayani, A., I.Q. Lailaty, & S. Astutik. 2019. Evaluasi kesintasan dan pertumbuhan beberapa jenis pohon lokal di area restorasi Cagar Biosfer Cibodas. Journal of Natural Resources and Environmental Management, 9(3): 541-548."
+    }
+  },
+  "melati": {
+    "namaUmum": "Melati Putih",
+    "namaIlmiah": "Jasminum sambac",
+    "statusKonservasi": "Least Concern (LC) - Berisiko Rendah",
+    "deskripsiSingkat": "Bunga ikonik dengan aroma khas yang kuat, sering digunakan dalam upacara adat dan sebagai bahan teh.",
+    "gambar": { "utama": "https://images.unsplash.com/photo-1596923251893-9d93d1694361?q=80&w=1887", "detail1": "https://images.unsplash.com/photo-1627896152334-a63d_83704252?q=80&w=1887", "detail2": "https://images.unsplash.com/photo-1586942583899-91b23cf4a683?q=80&w=1887" },
+    "morfologi": { "judul": "Morfologi", "konten": "Tanaman perdu merambat, bunga berwarna putih bersih, berukuran kecil, dan sangat harum." },
+    "ekologi": { "judul": "Ekologi & Habitat", "konten": "Tumbuh subur di iklim tropis dengan sinar matahari penuh dan tanah yang gembur." },
+    "budidaya": { "judul": "Budidaya", "konten": "Dapat diperbanyak dengan stek batang. Membutuhkan penyiraman rutin untuk pembungaan optimal." },
+    "manfaat": { "judul": "Manfaat", "konten": "Digunakan sebagai bunga hias, bahan baku parfum dan teh, serta memiliki khasiat sebagai obat tradisional." },
+    "klasifikasi": { "judul": "Klasifikasi", "konten": "Familia: Oleaceae, Genus: Jasminum, Species: J. sambac" },
+    "referensi": { "judul": "Referensi", "konten": "Informasi referensi untuk Melati Putih akan ditambahkan di sini." }
+  },
+  "anggrek-bulan": {
+    "namaUmum": "Anggrek Bulan",
+    "namaIlmiah": "Phalaenopsis amabilis",
+    "statusKonservasi": "Least Concern (LC) - Berisiko Rendah",
+    "deskripsiSingkat": "Salah satu bunga nasional Indonesia yang dikenal sebagai Puspa Pesona, memiliki kelopak lebar dan anggun.",
+    "gambar": { "utama": "https://images.unsplash.com/photo-1560094033-149b8a1a1e8a?q=80&w=1887", "detail1": "https://images.unsplash.com/photo-1517178313056-55a15370a2c4?q=80&w=1887", "detail2": "https://images.unsplash.com/photo-1541123023864-4638c253456d?q=80&w=1887" },
+    "morfologi": { "judul": "Morfologi", "konten": "Bunga berwarna putih dengan corak kuning atau ungu di bagian tengah, daun tebal berwarna hijau tua." },
+    "ekologi": { "judul": "Ekologi & Habitat", "konten": "Tumbuhan epifit yang menempel pada batang pohon di hutan hujan tropis." },
+    "budidaya": { "judul": "Budidaya", "konten": "Membutuhkan kelembapan tinggi, sirkulasi udara baik, dan tidak terkena sinar matahari langsung." },
+    "manfaat": { "judul": "Manfaat", "konten": "Sangat populer sebagai tanaman hias dalam pot karena keindahan dan daya tahan bunganya." },
+    "klasifikasi": { "judul": "Klasifikasi", "konten": "Familia: Orchidaceae, Genus: Phalaenopsis, Species: P. amabilis" },
+    "referensi": { "judul": "Referensi", "konten": "Informasi referensi untuk Anggrek Bulan akan ditambahkan di sini." }
+  }
+}

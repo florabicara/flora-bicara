@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flora Bicara</title>
+    <!-- Menggunakan Tailwind CSS dan Font dari Google Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #fdfaf6; /* Warna krem lembut */
+        }
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+        /* Style untuk transisi accordion yang mulus */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        /* Style khusus untuk konten referensi */
+        .referensi-konten {
+            white-space: pre-wrap; /* Membuat \n berfungsi sebagai baris baru */
+            word-wrap: break-word; /* Memastikan teks panjang tidak keluar dari kotak */
+            font-family: monospace;
+            font-size: 0.875rem; /* Ukuran font sedikit lebih kecil */
+            background-color: #f3f4f6; /* Latar belakang abu-abu muda */
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header yang konsisten -->
+    <nav class="bg-green-800 text-white shadow-md">
+        <div class="container mx-auto px-4 py-3">
+            <a href="index.html" class="text-xl font-bold">Flora Bicara</a>
+        </div>
+    </nav>
+
+    <!-- Konten Detail Tumbuhan -->
+    <main class="container mx-auto px-4 py-8">
+        
+        <div id="plant-header" class="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
+            <img id="plant-main-image" src="https://placehold.co/800x400/eeeeee/cccccc?text=Memuat+Gambar..." alt="Gambar utama tumbuhan" class="w-full h-64 md:h-80 object-cover">
+            <div class="p-6">
+                <h1 id="plant-common-name" class="text-3xl md:text-4xl font-bold text-green-800">Memuat...</h1>
+                <p id="plant-scientific-name" class="text-lg text-gray-600 italic mt-1 mb-4"></p>
+                <div id="conservation-status-wrapper" class="mb-4">
+                    <span id="conservation-status" class="px-3 py-1 rounded-full text-sm font-medium text-white"></span>
+                </div>
+                <p id="plant-short-description" class="text-gray-700 text-base leading-relaxed"></p>
+            </div>
+        </div>
+
+        <div id="plant-details-accordion" class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <!-- Item accordion akan ditambahkan di sini oleh JavaScript -->
+        </div>
+
+        <div id="not-found" class="hidden text-center py-16">
+            <h2 class="text-2xl font-bold text-red-600">Tumbuhan Tidak Ditemukan</h2>
+            <p class="text-gray-600 mt-2">Maaf, data untuk tumbuhan ini tidak ada dalam database.</p>
+            <a href="index.html" class="mt-6 inline-block bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-lg">Kembali ke Beranda</a>
+        </div>
+
+    </main>
+
+    <footer class="bg-green-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2024 Flora Bicara. All rights reserved.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            const plantKey = params.get('nama');
+
+            if (!plantKey) {
+                showError();
+                return;
+            }
+
+            fetch('data.json')
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.json();
+                })
+                .then(data => {
+                    const plant = data[plantKey];
+                    if (plant) {
+                        displayPlantData(plant);
+                    } else {
+                        showError();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    showError();
+                });
+        });
+
+        function displayPlantData(plant) {
+            document.title = plant.namaUmum + " | Flora Bicara";
+
+            // **PERBAIKAN: Logika gambar yang lebih aman**
+            const images = plant.gambar;
+            const imageKeys = images ? Object.keys(images) : [];
+
+            // Tampilkan gambar pertama sebagai gambar utama jika ada
+            if (imageKeys.length > 0 && typeof images[imageKeys[0]] === 'string') {
+                document.getElementById('plant-main-image').src = images[imageKeys[0]];
+                document.getElementById('plant-main-image').alt = `Gambar ${imageKeys[0]} ${plant.namaUmum}`;
+            }
+            
+            document.getElementById('plant-common-name').textContent = plant.namaUmum;
+            document.getElementById('plant-scientific-name').textContent = plant.namaIlmiah;
+            document.getElementById('plant-short-description').textContent = plant.deskripsiSingkat;
+            
+            const statusEl = document.getElementById('conservation-status');
+            statusEl.textContent = plant.statusKonservasi;
+            statusEl.className = 'px-3 py-1 rounded-full text-sm font-medium text-white ';
+            if (plant.statusKonservasi && plant.statusKonservasi.toLowerCase().includes('rendah')) {
+                statusEl.classList.add('bg-green-500');
+            } else {
+                statusEl.classList.add('bg-red-500');
+            }
+
+            const accordionContainer = document.getElementById('plant-details-accordion');
+            const details = ['morfologi', 'ekologi', 'budidaya', 'manfaat', 'klasifikasi', 'referensi'];
+            
+            details.forEach(key => {
+                if (plant[key] && plant[key].konten) {
+                    let contentHTML;
+                    if (key === 'referensi') {
+                        contentHTML = `<div class="referensi-konten">${plant[key].konten}</div>`;
+                    } else {
+                        contentHTML = `<p>${plant[key].konten}</p>`;
+                    }
+                    addAccordionItem(accordionContainer, plant[key].judul, contentHTML);
+                }
+            });
+
+            // **PERBAIKAN: Logika galeri yang lebih aman**
+            const galleryKeys = imageKeys.slice(1);
+            if (galleryKeys.length > 0) {
+                let galleryHTML = '<div class="grid grid-cols-2 gap-4">';
+                let hasGalleryImages = false;
+                galleryKeys.forEach(key => {
+                    if (typeof images[key] === 'string' && images[key].length > 0) {
+                        hasGalleryImages = true;
+                        const label = key.charAt(0).toUpperCase() + key.slice(1);
+                        galleryHTML += `
+                            <div>
+                                <img src="${images[key]}" alt="Gambar ${label} ${plant.namaUmum}" class="rounded-lg shadow-md w-full h-auto object-cover">
+                                <p class="text-center text-sm text-gray-600 mt-2">${label}</p>
+                            </div>
+                        `;
+                    }
+                });
+                galleryHTML += '</div>';
+                if(hasGalleryImages) {
+                    addAccordionItem(accordionContainer, 'Galeri Gambar', galleryHTML);
+                }
+            }
+        }
+
+        function addAccordionItem(container, title, contentHTML) {
+            const item = document.createElement('div');
+            item.className = 'border-b border-gray-200 last:border-b-0';
+            
+            item.innerHTML = `
+                <button class="w-full px-6 py-4 text-left font-semibold text-lg text-green-900 hover:bg-gray-50 flex justify-between items-center transition">
+                    <span>${title}</span>
+                    <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="accordion-content px-6 pb-6 text-gray-700 leading-relaxed">
+                    ${contentHTML}
+                </div>
+            `;
+            
+            container.appendChild(item);
+
+            const button = item.querySelector('button');
+            const contentDiv = item.querySelector('.accordion-content');
+            const icon = item.querySelector('svg');
+
+            button.addEventListener('click', () => {
+                if (contentDiv.style.maxHeight) {
+                    contentDiv.style.maxHeight = null;
+                    icon.classList.remove('rotate-180');
+                } else {
+                    contentDiv.style.maxHeight = contentDiv.scrollHeight + "px";
+                    icon.classList.add('rotate-180');
+                }
+            });
+        }
+
+        function showError() {
+            document.getElementById('plant-header').classList.add('hidden');
+            document.getElementById('plant-details-accordion').classList.add('hidden');
+            document.getElementById('not-found').classList.remove('hidden');
+        }
+    </script>
+
+</body>
+</html>
