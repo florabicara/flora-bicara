@@ -5,9 +5,9 @@
     "statusKonservasi": "Puspa masuk dalam kategori Least Concern (LC), artinya tumbuhan ini berisiko rendah terhadap kepunahan.",
     "deskripsiSingkat": "Pohon hijau adaptif yang dikenal karena ketahanannya terhadap api dan kemampuannya merehabilitasi lahan kritis, konservasi tanah, dan pelindung tebing lereng di kawasan perbukitan.",
     "gambar": {
-      "bunga": "images/puspa-bunga.jpg",
-      "daun": "images/puspa-daun.jpg",
-      "batang": "images/puspa-batang.jpg"
+      "bunga": "https://raw.githubusercontent.com/florabicara/flora-bicara/main/images/puspa-bunga.jpg",
+      "daun": "https://raw.githubusercontent.com/florabicara/flora-bicara/main/images/puspa-daun.jpg",
+      "batang": "https://raw.githubusercontent.com/florabicara/flora-bicara/main/images/puspa-batang.jpg"
     },
     "morfologi": {
       "judul": "Morfologi",
