@@ -75,7 +75,6 @@
         </div>
     </footer>
 
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const params = new URLSearchParams(window.location.search);
@@ -86,7 +85,7 @@
                 return;
             }
 
-            fetch('data.json')
+            fetch('data.json') // Mengambil data dari file eksternal
                 .then(response => {
                     if (!response.ok) throw new Error('Network response was not ok');
                     return response.json();
@@ -108,11 +107,9 @@
         function displayPlantData(plant) {
             document.title = plant.namaUmum + " | Flora Bicara";
 
-            // **PERBAIKAN: Logika gambar yang lebih aman**
             const images = plant.gambar;
             const imageKeys = images ? Object.keys(images) : [];
 
-            // Tampilkan gambar pertama sebagai gambar utama jika ada
             if (imageKeys.length > 0 && typeof images[imageKeys[0]] === 'string') {
                 document.getElementById('plant-main-image').src = images[imageKeys[0]];
                 document.getElementById('plant-main-image').alt = `Gambar ${imageKeys[0]} ${plant.namaUmum}`;
@@ -140,16 +137,15 @@
                     if (key === 'referensi') {
                         contentHTML = `<div class="referensi-konten">${plant[key].konten}</div>`;
                     } else {
-                        contentHTML = `<p>${plant[key].konten}</p>`;
+                        contentHTML = `<p>${plant[key].konten.replace(/\n/g, '<br>')}</p>`;
                     }
                     addAccordionItem(accordionContainer, plant[key].judul, contentHTML);
                 }
             });
 
-            // **PERBAIKAN: Logika galeri yang lebih aman**
             const galleryKeys = imageKeys.slice(1);
             if (galleryKeys.length > 0) {
-                let galleryHTML = '<div class="grid grid-cols-2 gap-4">';
+                let galleryHTML = '<div class="grid grid-cols-2 md:grid-cols-3 gap-4">';
                 let hasGalleryImages = false;
                 galleryKeys.forEach(key => {
                     if (typeof images[key] === 'string' && images[key].length > 0) {
@@ -157,7 +153,7 @@
                         const label = key.charAt(0).toUpperCase() + key.slice(1);
                         galleryHTML += `
                             <div>
-                                <img src="${images[key]}" alt="Gambar ${label} ${plant.namaUmum}" class="rounded-lg shadow-md w-full h-auto object-cover">
+                                <img src="${images[key]}" alt="Gambar ${label} ${plant.namaUmum}" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square">
                                 <p class="text-center text-sm text-gray-600 mt-2">${label}</p>
                             </div>
                         `;
@@ -177,7 +173,7 @@
             item.innerHTML = `
                 <button class="w-full px-6 py-4 text-left font-semibold text-lg text-green-900 hover:bg-gray-50 flex justify-between items-center transition">
                     <span>${title}</span>
-                    <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-l7 7-7-7"></path></svg>
                 </button>
                 <div class="accordion-content px-6 pb-6 text-gray-700 leading-relaxed">
                     ${contentHTML}
@@ -191,7 +187,16 @@
             const icon = item.querySelector('svg');
 
             button.addEventListener('click', () => {
-                if (contentDiv.style.maxHeight) {
+                const isOpen = contentDiv.style.maxHeight;
+                
+                // Menutup semua accordion lain
+                container.querySelectorAll('.accordion-content').forEach(el => {
+                    el.style.maxHeight = null;
+                    el.previousElementSibling.querySelector('svg').classList.remove('rotate-180');
+                });
+
+                // Membuka atau menutup item yang diklik
+                if (isOpen) {
                     contentDiv.style.maxHeight = null;
                     icon.classList.remove('rotate-180');
                 } else {
