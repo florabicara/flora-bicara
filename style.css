@@ -1,28 +1,128 @@
+/* Animasi interaktif card muncul */
+.plant-card {
+	opacity: 0;
+	transform: translateY(40px) scale(0.98);
+	animation: cardFadeIn 0.7s cubic-bezier(.4,0,.2,1) forwards;
+}
+.plant-card.animated {
+	opacity: 1;
+	transform: none;
+}
+@keyframes cardFadeIn {
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/* Dark mode */
+body.dark {
+	background: linear-gradient(120deg, #23272e 60%, #14532d 100%);
+	color: #e5e7eb;
+}
+body.dark .glass-header, body.dark .footer-glass {
+	background: rgba(20, 83, 45, 0.97);
+}
+body.dark .plant-card, body.dark .card {
+	background: linear-gradient(135deg, #23272e 80%, #14532d 100%);
+	color: #e5e7eb;
+	border-color: #374151;
+}
+body.dark .plant-card:hover, body.dark .card:hover {
+	background: linear-gradient(135deg, #14532d 70%, #23272e 100%);
+	border-color: #a7f3d0;
+}
+body.dark h1, body.dark h2, body.dark h3, body.dark h4 {
+	color: #a7f3d0;
+}
+body.dark .btn {
+	background: linear-gradient(90deg, #a7f3d0 60%, #166534 100%);
+	color: #14532d;
+}
+
 body {
 	padding: 2rem;
-	font-family: -apple-system, BlinkMacSystemFont, "Arial", sans-serif;
+	font-family: 'Lato', -apple-system, BlinkMacSystemFont, "Arial", sans-serif;
+	background: linear-gradient(120deg, #fdfaf6 60%, #e0f2f1 100%);
+	color: #374151;
+	min-height: 100vh;
+	transition: background 0.6s cubic-bezier(.4,0,.2,1);
 }
+
 
 h1 {
-	font-size: 16px;
+	font-size: 2.2rem;
 	margin-top: 0;
+	font-family: 'Playfair Display', serif;
+	color: #14532d;
+	letter-spacing: -1px;
+	margin-bottom: 0.5em;
+	text-shadow: 0 2px 8px #e0e7ef44;
+	transition: color 0.3s;
 }
 
+
 p {
-	color: rgb(107, 114, 128);
-	font-size: 15px;
+	color: #475569;
+	font-size: 1.08rem;
 	margin-bottom: 10px;
 	margin-top: 5px;
+	line-height: 1.7;
+	transition: color 0.3s;
 }
+
 
 .card {
 	max-width: 620px;
-	margin: 0 auto;
-	padding: 16px;
-	border: 1px solid lightgray;
-	border-radius: 16px;
+	margin: 0 auto 2rem auto;
+	padding: 2rem 1.5rem;
+	border: 1.5px solid #e5e7eb;
+	border-radius: 1.5rem;
+	background: linear-gradient(135deg, #fff 80%, #e0f2f1 100%);
+	box-shadow: 0 4px 24px -4px #14532d22, 0 1.5px 6px 0 #14532d11;
+	transition: box-shadow 0.3s, transform 0.3s, border-color 0.3s;
+	position: relative;
+	overflow: hidden;
 }
+.card:hover {
+	box-shadow: 0 12px 32px -8px #14532d33, 0 1.5px 6px 0 #14532d11;
+	border-color: #a7f3d0;
+	transform: translateY(-6px) scale(1.015);
+}
+
 
 .card p:last-child {
 	margin-bottom: 0;
+}
+
+/* Animasi fade-in untuk elemen */
+.fade-in {
+	opacity: 0;
+	transform: translateY(30px);
+	animation: fadeInUp 1s cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes fadeInUp {
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/* Tombol modern */
+.btn {
+	display: inline-block;
+	padding: 0.7em 1.6em;
+	background: linear-gradient(90deg, #14532d 60%, #166534 100%);
+	color: #fff;
+	border: none;
+	border-radius: 0.8em;
+	font-size: 1rem;
+	font-weight: 600;
+	box-shadow: 0 2px 8px #14532d22;
+	cursor: pointer;
+	transition: background 0.3s, transform 0.2s;
+}
+.btn:hover {
+	background: linear-gradient(90deg, #166534 60%, #14532d 100%);
+	transform: translateY(-2px) scale(1.03);
 }

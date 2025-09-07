@@ -29,12 +29,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.title = tumbuhan.namaUmum + " - Flora Bicara"; // Ganti judul tab browser
                 document.getElementById('gambar-utama').src = tumbuhan.gambar.utama;
                 document.getElementById('deskripsi-singkat').textContent = tumbuhan.deskripsiSingkat;
-            } else {
-                document.getElementById('nama-tumbuhan').textContent = `Tumbuhan "${namaKey}" tidak ada dalam database.`;
+            // Atur status konservasi jika ada
+            const statusEl = document.getElementById('conservation-status');
+            if (tumbuhan && statusEl) {
+                const status = tumbuhan.statusKonservasi || '';
+                statusEl.textContent = status;
+                statusEl.style.color = '#222';
             }
-        })
-        .catch(error => {
-            console.error('Terjadi masalah:', error);
-            document.getElementById('nama-tumbuhan').textContent = "Gagal memuat data.";
-        });
+        } else {
+            document.getElementById('nama-tumbuhan').textContent = `Tumbuhan "${namaKey}" tidak ada dalam database.`;
+        }
+    })
+    .catch(error => {
+        console.error('Terjadi masalah:', error);
+        document.getElementById('nama-tumbuhan').textContent = "Gagal memuat data.";
+    });
 });

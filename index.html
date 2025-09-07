@@ -29,36 +29,88 @@
     </script>
 
     <style>
-        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out; }
-        .plant-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .plant-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
-        .referensi-konten { white-space: pre-wrap; word-wrap: break-word; font-family: monospace; font-size: 0.875rem; background-color: #f3f4f6; padding: 1rem; border-radius: 0.5rem; }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(.4,0,.2,1);
+        }
+        .plant-card {
+            transition: transform 0.3s cubic-bezier(.4,0,.2,1), box-shadow 0.3s cubic-bezier(.4,0,.2,1);
+            box-shadow: 0 2px 8px 0 rgb(20 83 45 / 0.08);
+            background: linear-gradient(135deg, #fdfaf6 80%, #e2e8f0 100%);
+            border: 1.5px solid #e5e7eb;
+        }
+        .plant-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 12px 32px -8px rgb(20 83 45 / 0.18);
+            background: linear-gradient(135deg, #f0fdf4 70%, #e0e7ef 100%);
+            border-color: #a7f3d0;
+        }
+        .referensi-konten {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: monospace;
+            font-size: 0.95rem;
+            background-color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s cubic-bezier(.4,0,.2,1) forwards;
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+        .glass-header {
+            background: rgba(20, 83, 45, 0.85);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .footer-glass {
+            background: rgba(20, 83, 45, 0.92);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(6px);
+        }
+        .shadow-2xl {
+            box-shadow: 0 12px 32px -8px rgb(20 83 45 / 0.18), 0 1.5px 6px 0 rgb(20 83 45 / 0.08);
+        }
+        .accordion-content.open {
+            transition: max-height 0.5s cubic-bezier(.4,0,.2,1);
+        }
     </style>
 </head>
-<body class="bg-brand-cream font-sans text-brand-gray antialiased">
 
-    <header class="bg-brand-green text-white shadow-lg sticky top-0 z-50">
+<body class="bg-brand-cream font-sans text-brand-gray antialiased">
+    <header class="glass-header text-white shadow-lg sticky top-0 z-50 transition-all duration-500">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-serif font-bold">Flora Bicara</a>
+            <a href="index.html" class="text-2xl font-serif font-bold tracking-tight drop-shadow-lg">Flora Bicara</a>
             <nav class="hidden md:flex space-x-8">
                 <a href="index.html" class="hover:text-green-300 transition">Beranda</a>
             </nav>
+            <button id="toggle-dark" class="ml-4 px-3 py-2 rounded-lg bg-white/20 hover:bg-white/40 text-white font-bold transition-colors duration-300 focus:outline-none" title="Toggle dark mode">
+                <svg id="dark-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-13.66l-.71.71M4.05 19.07l-.71.71M21 12h-1M4 12H3m16.66 5.66l-.71-.71M4.05 4.93l-.71-.71M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            </button>
         </div>
     </header>
 
     <main id="app-container">
         
         <div id="home-view">
-            <section class="relative h-[60vh] flex items-center justify-center text-white text-center px-4">
-                <div class="absolute inset-0 bg-black opacity-40"></div>
-                <img src="https://images.unsplash.com/photo-1491147334573-44cbb4602074?q=80&w=1887" alt="Hutan rimbun" class="absolute inset-0 w-full h-full object-cover">
-                <div class="relative z-10">
-                    <h1 class="text-4xl md:text-6xl font-serif font-bold mb-4">Suara Alam di Ujung Jari Anda</h1>
-                    <p class="text-lg md:text-xl max-w-3xl mx-auto">Pindai QR code pada setiap tanaman untuk mengungkap cerita, manfaat, dan keunikan yang tersembunyi.</p>
+            <section class="relative h-[60vh] flex items-center justify-center text-white text-center px-4 overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-transparent"></div>
+                <img src="https://images.unsplash.com/photo-1491147334573-44cbb4602074?q=80&w=1887" alt="Hutan rimbun" class="absolute inset-0 w-full h-full object-cover scale-105 blur-[1px] brightness-90 transition-all duration-700">
+                <div class="relative z-10 fade-in">
+                    <h1 class="text-4xl md:text-6xl font-serif font-bold mb-4 drop-shadow-lg">Suara Alam di Ujung Jari Anda</h1>
+                    <p class="text-lg md:text-xl max-w-3xl mx-auto drop-shadow">Pindai QR code pada setiap tanaman untuk mengungkap cerita, manfaat, dan keunikan yang tersembunyi.</p>
                 </div>
             </section>
             <section class="container mx-auto py-16 px-6">
-                <h2 class="text-4xl font-serif font-bold text-center mb-12 text-brand-green">Jelajahi Koleksi Kami</h2>
+                <h2 class="text-4xl font-serif font-bold text-center mb-12 text-brand-green fade-in">Jelajahi Koleksi Kami</h2>
                 <div id="plant-gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
                 <div id="gallery-loader" class="text-center py-12"><p class="text-lg">Memuat koleksi tanaman...</p></div>
             </section>
@@ -66,13 +118,16 @@
 
         <div id="detail-view" class="hidden">
             <div class="container mx-auto px-4 py-8">
-                <div class="bg-white rounded-2xl shadow-2xl overflow-hidden mb-8">
-                    <img id="plant-main-image" src="https://placehold.co/1200x600/e2e8f0/94a3b8?text=Memuat..." alt="Gambar utama tumbuhan" class="w-full h-64 md:h-96 object-cover">
-                    <div class="p-8">
-                        <h1 id="plant-common-name" class="text-4xl md:text-5xl font-serif font-bold text-brand-green">Memuat...</h1>
-                        <p id="plant-scientific-name" class="text-xl text-gray-500 italic mt-1 mb-6"></p>
-                        <div id="conservation-status-wrapper" class="mb-6"><span id="conservation-status" class="px-4 py-2 rounded-full text-sm font-semibold text-white"></span></div>
-                        <p id="plant-short-description" class="text-gray-700 text-lg leading-relaxed"></p>
+                <div class="relative rounded-3xl shadow-2xl overflow-hidden mb-10 bg-gradient-to-br from-brand-cream via-white to-brand-light-green/20 border border-brand-green/10 transition-all duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-green/60 via-transparent to-transparent z-10 pointer-events-none"></div>
+                    <img id="plant-main-image" src="https://placehold.co/1200x600/e2e8f0/94a3b8?text=Memuat..." alt="Gambar utama tumbuhan" class="w-full h-64 md:h-96 object-cover scale-105 transition-transform duration-700 ease-in-out hover:scale-110">
+                    <div class="relative z-20 p-8 md:p-12">
+                        <h1 id="plant-common-name" class="text-4xl md:text-5xl font-serif font-bold text-brand-green drop-shadow-lg mb-2 transition-colors duration-500">Memuat...</h1>
+                        <p id="plant-scientific-name" class="text-xl text-brand-light-green italic mt-1 mb-6"></p>
+                        <div id="conservation-status-wrapper" class="mb-6">
+                            <div id="conservation-status" class="w-full max-w-xl px-5 py-3 bg-emerald-50/80 border border-emerald-200 shadow rounded-xl overflow-auto font-semibold text-base tracking-wide break-words whitespace-pre-line text-black"></div>
+                        </div>
+                        <p id="plant-short-description" class="text-brand-gray text-lg leading-relaxed bg-white/70 rounded-xl p-4 shadow-sm mb-2 transition-all duration-500"></p>
                     </div>
                 </div>
                 <div id="plant-details-accordion" class="space-y-4"></div>
@@ -87,7 +142,7 @@
 
     </main>
 
-    <footer class="bg-brand-green text-white py-12">
+    <footer class="footer-glass text-white py-12 transition-all duration-500">
         <div class="container mx-auto px-6 text-center">
             <p>&copy; 2024 Flora Bicara. Dirancang dengan penuh cinta untuk alam.</p>
         </div>
@@ -95,6 +150,32 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Dark mode toggle
+            const darkBtn = document.getElementById('toggle-dark');
+            const darkIcon = document.getElementById('dark-icon');
+            function setDarkMode(on) {
+                document.body.classList.toggle('dark', on);
+                darkIcon.innerHTML = on
+                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/>'
+                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-13.66l-.71.71M4.05 19.07l-.71.71M21 12h-1M4 12H3m16.66 5.66l-.71-.71M4.05 4.93l-.71-.71M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>';
+                localStorage.setItem('darkMode', on ? '1' : '0');
+            }
+            if (localStorage.getItem('darkMode') === '1') setDarkMode(true);
+            darkBtn.addEventListener('click', () => setDarkMode(!document.body.classList.contains('dark')));
+
+            // Animasi interaktif card tanaman
+            function animateCards() {
+                const cards = document.querySelectorAll('.plant-card');
+                cards.forEach((card, i) => {
+                    setTimeout(() => card.classList.add('animated'), 80 * i);
+                });
+            }
+
+            // Hook ke galeri setelah render
+            const galleryObserver = new MutationObserver(animateCards);
+            const gallery = document.getElementById('plant-gallery');
+            if (gallery) galleryObserver.observe(gallery, { childList: true });
+
             const app = {
                 ui: {
                     homeView: document.getElementById('home-view'),
