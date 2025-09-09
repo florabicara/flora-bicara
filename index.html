@@ -218,7 +218,7 @@
                             const namaUmum = plant.namaUmum || '(Tanpa Nama)';
                             const namaIlmiah = plant.namaIlmiah || '';
                             card.innerHTML = `
-                                <img src="${firstImage}" alt="${namaUmum}" class="w-full h-56 object-cover">
+                                <img src="${firstImage}" alt="${namaUmum}" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x300/e2e8f0/94a3b8?text=No+Image';">
                                 <div class="p-5">
                                     <h3 class="text-xl font-serif font-bold text-brand-green">${namaUmum}</h3>
                                     <p class="text-gray-500 italic">${namaIlmiah}</p>
@@ -248,7 +248,12 @@
                         
                         const images = plant.gambar || {};
                         const imageKeys = Object.keys(images);
-                        document.getElementById('plant-main-image').src = imageKeys.length > 0 && images[imageKeys[0]] ? images[imageKeys[0]] : 'https://placehold.co/800x400/e2e8f0/94a3b8?text=No+Image';
+                        const mainImg = document.getElementById('plant-main-image');
+                        mainImg.src = imageKeys.length > 0 && images[imageKeys[0]] ? images[imageKeys[0]] : 'https://placehold.co/800x400/e2e8f0/94a3b8?text=No+Image';
+                        mainImg.onerror = function() {
+                            this.onerror = null;
+                            this.src = 'https://placehold.co/800x400/e2e8f0/94a3b8?text=No+Image';
+                        };
 
                         document.getElementById('plant-common-name').textContent = plant.namaUmum || '(Tanpa Nama)';
                         document.getElementById('plant-scientific-name').textContent = plant.namaIlmiah || '';
@@ -276,7 +281,8 @@
                             let galleryHTML = '<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">';
                             galleryKeys.forEach(key => {
                                 const label = key.charAt(0).toUpperCase() + key.slice(1);
-                                galleryHTML += `<div><img src="${images[key] || 'https://placehold.co/400x300/e2e8f0/94a3b8?text=No+Image'}" alt="Gambar ${label}" class="rounded-lg shadow-md w-full h-auto object-cover"><p class="text-center text-sm text-gray-600 mt-2">${label}</p></div>`;
+                                const imgSrc = images[key] || 'https://placehold.co/400x300/e2e8f0/94a3b8?text=No+Image';
+                                galleryHTML += `<div><img src="${imgSrc}" alt="Gambar ${label}" class="rounded-lg shadow-md w-full h-auto object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x300/e2e8f0/94a3b8?text=No+Image';"><p class="text-center text-sm text-gray-600 mt-2">${label}</p></div>`;
                             });
                             galleryHTML += '</div>';
                             this.createAccordionItem('Galeri Gambar', galleryHTML, false);
