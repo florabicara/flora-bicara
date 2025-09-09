@@ -208,25 +208,32 @@
                         if (!response.ok) throw new Error('Gagal memuat data');
                         const data = await response.json();
                         this.ui.gallery.innerHTML = '';
+                        let found = false;
                         for (const key in data) {
-                            const plant = data[key];
+                            const plant = data[key] || {};
                             const card = document.createElement('a');
-                            card.href = `index.html?nama=${key}`;
+                            card.href = `index.html?nama=${encodeURIComponent(key)}`;
                             card.className = 'plant-card bg-white rounded-lg shadow-lg overflow-hidden block';
-                            const firstImage = plant.gambar ? Object.values(plant.gambar)[0] : 'https://placehold.co/400x300/e2e8f0/94a3b8?text=No+Image';
+                            const firstImage = plant.gambar && Object.values(plant.gambar)[0] ? Object.values(plant.gambar)[0] : 'https://placehold.co/400x300/e2e8f0/94a3b8?text=No+Image';
+                            const namaUmum = plant.namaUmum || '(Tanpa Nama)';
+                            const namaIlmiah = plant.namaIlmiah || '';
                             card.innerHTML = `
-                                <img src="${firstImage}" alt="${plant.namaUmum}" class="w-full h-56 object-cover">
+                                <img src="${firstImage}" alt="${namaUmum}" class="w-full h-56 object-cover">
                                 <div class="p-5">
-                                    <h3 class="text-xl font-serif font-bold text-brand-green">${plant.namaUmum}</h3>
-                                    <p class="text-gray-500 italic">${plant.namaIlmiah}</p>
+                                    <h3 class="text-xl font-serif font-bold text-brand-green">${namaUmum}</h3>
+                                    <p class="text-gray-500 italic">${namaIlmiah}</p>
                                 </div>
                             `;
                             this.ui.gallery.appendChild(card);
+                            found = true;
+                        }
+                        if (!found) {
+                            this.ui.gallery.innerHTML = '<p class="text-gray-500">Tidak ada koleksi tumbuhan ditemukan.</p>';
                         }
                         this.ui.galleryLoader.classList.add('hidden');
                     } catch (error) {
                         console.error("Error loading gallery:", error);
-                        this.ui.galleryLoader.innerHTML = '<p class="text-red-500">Gagal memuat koleksi.</p>';
+                        this.ui.galleryLoader.innerHTML = '<p class="text-red-500">Gagal memuat koleksi.<br>Pastikan Anda menjalankan website ini melalui <b>server lokal</b> (bukan dengan membuka file langsung).</p>';
                     }
                 },
                 async loadPlantDetail(plantKey) {
@@ -237,28 +244,30 @@
                         const plant = data[plantKey];
                         if (!plant) throw new Error('Tumbuhan tidak ditemukan');
 
-                        document.title = `${plant.namaUmum} | Flora Bicara`;
+                        document.title = `${plant.namaUmum || '(Tanpa Nama)'} | Flora Bicara`;
                         
                         const images = plant.gambar || {};
                         const imageKeys = Object.keys(images);
-                        if (imageKeys.length > 0) {
-                            document.getElementById('plant-main-image').src = images[imageKeys[0]];
-                        }
+                        document.getElementById('plant-main-image').src = imageKeys.length > 0 && images[imageKeys[0]] ? images[imageKeys[0]] : 'https://placehold.co/800x400/e2e8f0/94a3b8?text=No+Image';
 
-                        document.getElementById('plant-common-name').textContent = plant.namaUmum;
-                        document.getElementById('plant-scientific-name').textContent = plant.namaIlmiah;
-                        document.getElementById('plant-short-description').textContent = plant.deskripsiSingkat;
+                        document.getElementById('plant-common-name').textContent = plant.namaUmum || '(Tanpa Nama)';
+                        document.getElementById('plant-scientific-name').textContent = plant.namaIlmiah || '';
+                        document.getElementById('plant-short-description').textContent = plant.deskripsiSingkat || '';
 
                         const statusEl = document.getElementById('conservation-status');
-                        statusEl.textContent = plant.statusKonservasi;
+                        statusEl.textContent = plant.statusKonservasi || '';
                         statusEl.className = 'px-4 py-2 rounded-full text-sm font-semibold text-white ';
-                        statusEl.classList.add(plant.statusKonservasi.toLowerCase().includes('rendah') ? 'bg-green-600' : 'bg-red-600');
+                        if (plant.statusKonservasi && plant.statusKonservasi.toLowerCase().includes('rendah')) {
+                            statusEl.classList.add('bg-green-600');
+                        } else {
+                            statusEl.classList.add('bg-red-600');
+                        }
                         
                         this.ui.accordionContainer.innerHTML = '';
                         const details = ['morfologi', 'ekologi', 'budidaya', 'manfaat', 'klasifikasi', 'referensi'];
                         details.forEach(key => {
                             if (plant[key] && plant[key].konten) {
-                                this.createAccordionItem(plant[key].judul, plant[key].konten, key === 'referensi');
+                                this.createAccordionItem(plant[key].judul || key, plant[key].konten, key === 'referensi');
                             }
                         });
 
@@ -267,7 +276,7 @@
                             let galleryHTML = '<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">';
                             galleryKeys.forEach(key => {
                                 const label = key.charAt(0).toUpperCase() + key.slice(1);
-                                galleryHTML += `<div><img src="${images[key]}" alt="Gambar ${label}" class="rounded-lg shadow-md w-full h-auto object-cover"><p class="text-center text-sm text-gray-600 mt-2">${label}</p></div>`;
+                                galleryHTML += `<div><img src="${images[key] || 'https://placehold.co/400x300/e2e8f0/94a3b8?text=No+Image'}" alt="Gambar ${label}" class="rounded-lg shadow-md w-full h-auto object-cover"><p class="text-center text-sm text-gray-600 mt-2">${label}</p></div>`;
                             });
                             galleryHTML += '</div>';
                             this.createAccordionItem('Galeri Gambar', galleryHTML, false);
@@ -275,6 +284,11 @@
                     } catch (error) {
                         console.error("Error loading plant detail:", error);
                         this.showView('error');
+                        // Show a more helpful error message
+                        const errView = document.getElementById('error-view');
+                        if (errView) {
+                            errView.innerHTML += '<div class="mt-6 text-sm text-gray-500">Pastikan Anda menjalankan website ini melalui <b>server lokal</b> (bukan dengan membuka file langsung).</div>';
+                        }
                     }
                 },
                 createAccordionItem(title, content, isReference) {
