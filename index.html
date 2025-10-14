@@ -204,7 +204,7 @@
                 },
                 async loadPlantGallery() {
                     try {
-                        const response = await fetch(data.json);
+                        const response = await fetch('data.json');
                         if (!response.ok) throw new Error('Gagal memuat data');
                         const data = await response.json();
                         this.ui.gallery.innerHTML = '';
