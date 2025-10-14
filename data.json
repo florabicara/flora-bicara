@@ -21,11 +21,9 @@
     "namaIlmiah": "Persea americana Mill.",
     "statusKonservasi": "Berdasarkan IUCN Red List, alpukat masuk dalam kategori Least Concern (LC), artinya berisiko rendah terhadap kepunahan. Hal ini disebabkan oleh distribusinya yang luas, budidaya intensif di berbagai negara, serta tingginya permintaan pasar global atas buah dari tanaman ini.",
     "gambar": {
-      "akar": "images/Akar Alpukat.JPG",
+      "buah": "images/Buah Alpukat.JPG",,
       "batang": "images/Batang Alpukat.JPG",
       "daun": "images/Daun Alpukat.JPG",
-      "bunga": "images/Bunga Alpukat.JPG",
-      "buah": "images/Buah Alpukat.JPG",
       "biji": "images/Biji Alpukat.JPG"
     },
     "ekologi": { "judul": "Ekologi & Habitat", "konten": "Alpukat berasal dari Amerika Tengah, khususnya Meksiko, Kolumbia, dan Venezuela. Alpukat tumbuh baik di daerah tropis dan subtropis dengan ketinggian 200–2.500 meter di atas permukaan laut. Tanaman ini memerlukan iklim hangat dengan curah hujan tahunan sedang hingga tinggi. Habitat alaminya berupa hutan tropis lembab, namun saat ini lebih banyak ditemukan pada lahan budidaya karena bernilai ekonomi tinggi." },
