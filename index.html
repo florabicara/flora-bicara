@@ -3,328 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flora Bicara</title>
+    <title>Flora Bicara | Database Desa Wisata MENARI</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        'sans': ['Lato', 'sans-serif'],
-                        'serif': ['Playfair Display', 'serif'],
-                    },
-                    colors: {
-                        'brand-green': '#14532d',
-                        'brand-light-green': '#166534',
-                        'brand-cream': '#fdfaf6',
-                        'brand-gray': '#374151',
-                    }
+                    fontFamily: { 'serif': ['Playfair Display', 'serif'], 'sans': ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: { 'botanical': '#14532d', 'nature-light': '#f0fdf4', 'earth': '#374151' }
                 }
             }
         }
     </script>
 
     <style>
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s cubic-bezier(.4,0,.2,1);
-        }
-        .plant-card {
-            transition: transform 0.3s cubic-bezier(.4,0,.2,1), box-shadow 0.3s cubic-bezier(.4,0,.2,1);
-            box-shadow: 0 2px 8px 0 rgb(20 83 45 / 0.08);
-            background: linear-gradient(135deg, #fdfaf6 80%, #e2e8f0 100%);
-            border: 1.5px solid #e5e7eb;
-        }
-        .plant-card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 12px 32px -8px rgb(20 83 45 / 0.18);
-            background: linear-gradient(135deg, #f0fdf4 70%, #e0e7ef 100%);
-            border-color: #a7f3d0;
-        }
-        .referensi-konten {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: monospace;
-            font-size: 0.95rem;
-            background-color: #f3f4f6;
-            padding: 1rem;
-            border-radius: 0.5rem;
-        }
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s cubic-bezier(.4,0,.2,1) forwards;
-        }
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: none;
-            }
-        }
-        .glass-header {
-            background: rgba(20, 83, 45, 0.85);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-        .footer-glass {
-            background: rgba(20, 83, 45, 0.92);
-            border-top: 1px solid rgba(255,255,255,0.08);
-            backdrop-filter: blur(6px);
-        }
-        .shadow-2xl {
-            box-shadow: 0 12px 32px -8px rgb(20 83 45 / 0.18), 0 1.5px 6px 0 rgb(20 83 45 / 0.08);
-        }
-        .accordion-content.open {
-            transition: max-height 0.5s cubic-bezier(.4,0,.2,1);
-        }
+        body { background-color: #fdfcf9; }
+        .glass-nav { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(20, 83, 45, 0.1); }
+        .plant-card { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .plant-card:hover { transform: translateY(-12px); box-shadow: 0 25px 50px -12px rgba(20, 83, 45, 0.15); }
+        .accordion-content { max-height: 0; overflow: hidden; transition: all 0.5s ease-in-out; opacity: 0; }
+        .accordion-content.open { max-height: 5000px; opacity: 1; padding-bottom: 2rem; }
+        .ref-item { padding: 12px; border-left: 3px solid #14532d; background: #f9fafb; margin-bottom: 8px; font-size: 0.9rem; }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #14532d; border-radius: 10px; }
     </style>
 </head>
 
-<body class="bg-brand-cream font-sans text-brand-gray antialiased">
-    <header class="glass-header text-white shadow-lg sticky top-0 z-50 transition-all duration-500">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-serif font-bold tracking-tight drop-shadow-lg">Flora Bicara</a>
-            <nav class="hidden md:flex space-x-8">
-                <a href="index.html" class="hover:text-green-300 transition">Beranda</a>
-            </nav>
-            <button id="toggle-dark" class="ml-4 px-3 py-2 rounded-lg bg-white/20 hover:bg-white/40 text-white font-bold transition-colors duration-300 focus:outline-none" title="Toggle dark mode">
-                <svg id="dark-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-13.66l-.71.71M4.05 19.07l-.71.71M21 12h-1M4 12H3m16.66 5.66l-.71-.71M4.05 4.93l-.71-.71M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-            </button>
-        </div>
-    </header>
+<body class="font-sans text-earth antialiased">
 
-    <main id="app-container">
-        
-        <div id="home-view">
-            <section class="relative h-[60vh] flex items-center justify-center text-white text-center px-4 overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-transparent"></div>
-                <img src="https://images.unsplash.com/photo-1491147334573-44cbb4602074?q=80&w=1887" alt="Hutan rimbun" class="absolute inset-0 w-full h-full object-cover scale-105 blur-[1px] brightness-90 transition-all duration-700">
-                <div class="relative z-10 fade-in">
-                    <h1 class="text-4xl md:text-6xl font-serif font-bold mb-4 drop-shadow-lg">Suara Alam di Ujung Jari Anda</h1>
-                    <p class="text-lg md:text-xl max-w-3xl mx-auto drop-shadow">Pindai QR code pada setiap tanaman untuk mengungkap cerita, manfaat, dan keunikan yang tersembunyi.</p>
+    <nav class="glass-nav sticky top-0 z-[100] py-4 px-6">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="goHome()">
+                <div class="w-10 h-10 bg-botanical rounded-xl flex items-center justify-center text-white shadow-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m8.66-13.66l-.71.71M4.05 19.07l-.71.71M21 12h-1M4 12H3m16.66 5.66l-.71-.71M4.05 4.93l-.71-.71M16 12a4 4 0 11-8 0 4 4 0 018 0z" stroke-width="2"/></svg>
                 </div>
-            </section>
-            <section class="container mx-auto py-16 px-6">
-                <h2 class="text-4xl font-serif font-bold text-center mb-12 text-brand-green fade-in">Jelajahi Koleksi Kami</h2>
-                <div id="plant-gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
-                <div id="gallery-loader" class="text-center py-12"><p class="text-lg">Memuat koleksi tanaman...</p></div>
-            </section>
-        </div>
-
-        <div id="detail-view" class="hidden">
-            <div class="container mx-auto px-4 py-8">
-                <div class="relative rounded-3xl shadow-2xl overflow-hidden mb-10 bg-gradient-to-br from-brand-cream via-white to-brand-light-green/20 border border-brand-green/10 transition-all duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-brand-green/60 via-transparent to-transparent z-10 pointer-events-none"></div>
-                    <img id="plant-main-image" src="https://placehold.co/1200x600/e2e8f0/94a3b8?text=Memuat..." alt="Gambar utama tumbuhan" class="w-full h-64 md:h-96 object-cover scale-105 transition-transform duration-700 ease-in-out hover:scale-110">
-                    <div class="relative z-20 p-8 md:p-12">
-                        <h1 id="plant-common-name" class="text-4xl md:text-5xl font-serif font-bold text-brand-green drop-shadow-lg mb-2 transition-colors duration-500">Memuat...</h1>
-                        <p id="plant-scientific-name" class="text-xl text-brand-light-green italic mt-1 mb-6"></p>
-                        <div id="conservation-status-wrapper" class="mb-6">
-                            <div id="conservation-status" class="w-full max-w-xl px-5 py-3 bg-emerald-50/80 border border-emerald-200 shadow rounded-xl overflow-auto font-semibold text-base tracking-wide break-words whitespace-pre-line text-black"></div>
-                        </div>
-                        <p id="plant-short-description" class="text-brand-gray text-lg leading-relaxed bg-white/70 rounded-xl p-4 shadow-sm mb-2 transition-all duration-500"></p>
-                    </div>
-                </div>
-                <div id="plant-details-accordion" class="space-y-4"></div>
+                <span class="font-serif text-2xl font-bold text-botanical tracking-tight">Flora Bicara</span>
+            </div>
+            <div class="hidden md:flex items-center gap-6">
+                <input type="text" id="search" placeholder="Cari tanaman..." class="bg-nature-light border border-botanical/20 px-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-botanical w-64">
             </div>
         </div>
-        
-        <div id="error-view" class="hidden text-center py-24 px-4">
-            <h2 class="text-3xl font-serif font-bold text-red-600">Terjadi Kesalahan</h2>
-            <p class="text-gray-600 mt-2 text-lg">Maaf, data tumbuhan tidak dapat ditemukan atau gagal dimuat.</p>
-            <a href="index.html" class="mt-8 inline-block bg-brand-green hover:bg-brand-light-green text-white font-bold py-3 px-8 rounded-lg transition-transform hover:scale-105">Kembali ke Beranda</a>
+    </nav>
+
+    <section id="home-view">
+        <header class="relative h-[60vh] flex items-center justify-center text-center px-6 overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 to-black/20 z-10"></div>
+            <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb773b09?q=80&w=2000" class="absolute inset-0 w-full h-full object-cover">
+            <div class="relative z-20 max-w-4xl">
+                <h1 class="font-serif text-5xl md:text-7xl text-white mb-6 leading-tight">Melestarikan Aset Hijau Nusantara</h1>
+                <p class="text-white/90 text-xl font-light">Eksplorasi Ilmiah Flora Lokal Kawasan Ngrawan, Desa Wisata MENARI</p>
+            </div>
+        </header>
+
+        <main class="container mx-auto py-20 px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                <div>
+                    <h2 class="font-serif text-4xl text-botanical mb-2">Koleksi Spesies</h2>
+                    <p class="text-gray-500">Menampilkan 30 data tanaman tahunan hasil inventarisasi desa.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="px-6 py-2 bg-botanical text-white rounded-full text-sm font-semibold shadow-lg">Semua</button>
+                </div>
+            </div>
+            
+            <div id="plant-gallery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                </div>
+        </main>
+    </section>
+
+    <section id="detail-view" class="hidden min-h-screen">
+        <div class="container mx-auto px-6 py-12">
+            <div class="flex flex-col lg:flex-row gap-12">
+                
+                <aside class="lg:w-2/5">
+                    <div class="sticky top-28 bg-white p-8 rounded-3xl border border-gray-100 shadow-xl">
+                        <div id="plant-badge" class="inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-green-100 text-green-800 mb-6">Status: LC</div>
+                        <h1 id="plant-name" class="font-serif text-5xl text-botanical mb-2">Nama Tanaman</h1>
+                        <p id="plant-sci" class="text-2xl italic text-gray-400 mb-8"></p>
+                        
+                        <div class="mb-8">
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Galeri Dokumentasi</h4>
+                            <div id="image-gallery" class="grid grid-cols-2 gap-3">
+                                </div>
+                        </div>
+
+                        <div class="bg-nature-light p-6 rounded-2xl">
+                            <p id="plant-desc" class="text-gray-600 leading-relaxed italic text-sm"></p>
+                        </div>
+                    </div>
+                </aside>
+
+                <article class="lg:w-3/5 space-y-4">
+                    <div id="accordion-container">
+                        </div>
+                </article>
+
+            </div>
         </div>
+    </section>
 
-    </main>
-
-    <footer class="footer-glass text-white py-12 transition-all duration-500">
-        <div class="container mx-auto px-6 text-center">
-            <p>&copy; 2025 Flora Bicara. Dirancang dengan penuh cinta untuk alam.</p>
+    <footer class="bg-botanical text-white/60 py-16 px-6 mt-20">
+        <div class="container mx-auto text-center">
+            <h2 class="font-serif text-3xl text-white mb-4">Flora Bicara</h2>
+            <p class="max-w-md mx-auto mb-8">Dokumentasi digital Keanekaragaman Hayati Desa Wisata MENARI untuk masa depan yang lebih hijau.</p>
+            <div class="pt-8 border-t border-white/10 text-sm">
+                &copy; 2025 Kementerian Pendidikan Tinggi - Proyek Inventarisasi Flora Lokal.
+            </div>
         </div>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Dark mode toggle
-            const darkBtn = document.getElementById('toggle-dark');
-            const darkIcon = document.getElementById('dark-icon');
-            function setDarkMode(on) {
-                document.body.classList.toggle('dark', on);
-                darkIcon.innerHTML = on
-                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/>'
-                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-13.66l-.71.71M4.05 19.07l-.71.71M21 12h-1M4 12H3m16.66 5.66l-.71-.71M4.05 4.93l-.71-.71M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>';
-                localStorage.setItem('darkMode', on ? '1' : '0');
+        let floraData = {};
+
+        // 1. Fetch data.json
+        async function loadData() {
+            try {
+                const response = await fetch('data.json');
+                floraData = await response.json();
+                renderGallery(floraData);
+            } catch (e) {
+                console.error("Data tidak ditemukan atau JSON salah format", e);
             }
-            if (localStorage.getItem('darkMode') === '1') setDarkMode(true);
-            darkBtn.addEventListener('click', () => setDarkMode(!document.body.classList.contains('dark')));
+        }
 
-            // Animasi interaktif card tanaman
-            function animateCards() {
-                const cards = document.querySelectorAll('.plant-card');
-                cards.forEach((card, i) => {
-                    setTimeout(() => card.classList.add('animated'), 80 * i);
-                });
+        // 2. Tampilkan Katalog
+        function renderGallery(data) {
+            const container = document.getElementById('plant-gallery');
+            container.innerHTML = '';
+            for (let key in data) {
+                const item = data[key];
+                // Ambil gambar pertama sebagai thumbnail
+                const thumb = Object.values(item.gambar)[0];
+                container.innerHTML += `
+                    <div onclick="showDetail('${key}')" class="plant-card bg-white rounded-3xl overflow-hidden cursor-pointer group border border-gray-100">
+                        <div class="h-72 overflow-hidden relative">
+                            <img src="${thumb}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-botanical/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-500 flex items-end p-6">
+                                <span class="text-white font-semibold">Lihat Detail Lengkap &rarr;</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <span class="text-xs font-bold text-botanical/40 uppercase tracking-widest">${item.namaIlmiah}</span>
+                            <h3 class="font-serif text-2xl text-botanical mt-1">${item.namaUmum}</h3>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // 3. Tampilkan Detail Penuh (Pertanggungjawaban Data)
+        function showDetail(key) {
+            const plant = floraData[key];
+            document.getElementById('home-view').classList.add('hidden');
+            const detail = document.getElementById('detail-view');
+            detail.classList.remove('hidden');
+            window.scrollTo(0,0);
+
+            // Set basic info
+            document.getElementById('plant-name').innerText = plant.namaUmum;
+            document.getElementById('plant-sci').innerText = plant.namaIlmiah;
+            document.getElementById('plant-desc').innerText = `"${plant.deskripsiSingkat}"`;
+            document.getElementById('plant-badge').innerText = `Status: ${plant.statusKonservasi.substring(0,25)}...`;
+
+            // Build Gallery
+            const galContainer = document.getElementById('image-gallery');
+            galContainer.innerHTML = '';
+            for (let organ in plant.gambar) {
+                galContainer.innerHTML += `
+                    <div class="group relative rounded-2xl overflow-hidden aspect-square shadow-sm">
+                        <img src="${plant.gambar[organ]}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                            <span class="text-[10px] text-white font-bold uppercase tracking-tighter">${organ}</span>
+                        </div>
+                    </div>
+                `;
             }
 
-            // Hook ke galeri setelah render
-            const galleryObserver = new MutationObserver(animateCards);
-            const gallery = document.getElementById('plant-gallery');
-            if (gallery) galleryObserver.observe(gallery, { childList: true });
+            // Build Accordion Sections (100% Data from Book)
+            const accContainer = document.getElementById('accordion-container');
+            accContainer.innerHTML = '';
+            const sections = ['ekologi', 'morfologi', 'budidaya', 'manfaat', 'klasifikasi', 'referensi'];
 
-            const app = {
-                ui: {
-                    homeView: document.getElementById('home-view'),
-                    detailView: document.getElementById('detail-view'),
-                    errorView: document.getElementById('error-view'),
-                    gallery: document.getElementById('plant-gallery'),
-                    galleryLoader: document.getElementById('gallery-loader'),
-                    accordionContainer: document.getElementById('plant-details-accordion'),
-                },
-                init() { this.handleRouting(); },
-                handleRouting() {
-                    const params = new URLSearchParams(window.location.search);
-                    const plantKey = params.get('nama');
-                    if (plantKey) {
-                        this.showView('detail');
-                        this.loadPlantDetail(plantKey);
-                    } else {
-                        this.showView('home');
-                        this.loadPlantGallery();
-                    }
-                },
-                showView(viewName) {
-                    this.ui.homeView.classList.toggle('hidden', viewName !== 'home');
-                    this.ui.detailView.classList.toggle('hidden', viewName !== 'detail');
-                    this.ui.errorView.classList.toggle('hidden', viewName !== 'error');
-                },
-                async loadPlantGallery() {
-                    try {
-                        const response = await fetch('data.json');
-                        if (!response.ok) throw new Error('Gagal memuat data');
-                        const data = await response.json();
-                        this.ui.gallery.innerHTML = '';
-                        let found = false;
-                        for (const key in data) {
-                            const plant = data[key] || {};
-                            const card = document.createElement('a');
-                            card.href = `index.html?nama=${encodeURIComponent(key)}`;
-                            card.className = 'plant-card bg-white rounded-lg shadow-lg overflow-hidden block';
-                            const firstImage = plant.gambar && Object.values(plant.gambar)[0] ? Object.values(plant.gambar)[0] : 'https://placehold.co/400x300/e2e8f0/94a3b8?text=No+Image';
-                            const namaUmum = plant.namaUmum || '(Tanpa Nama)';
-                            const namaIlmiah = plant.namaIlmiah || '';
-                            card.innerHTML = `
-                                <img src="${firstImage}" alt="${namaUmum}" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x300/e2e8f0/94a3b8?text=No+Image';">
-                                <div class="p-5">
-                                    <h3 class="text-xl font-serif font-bold text-brand-green">${namaUmum}</h3>
-                                    <p class="text-gray-500 italic">${namaIlmiah}</p>
+            sections.forEach(s => {
+                if(plant[s]) {
+                    const isRef = s === 'referensi';
+                    const contentText = isRef 
+                        ? plant[s].konten.split('\n').map(line => `<div class="ref-item">${line}</div>`).join('')
+                        : `<p class="text-gray-600 leading-relaxed text-lg">${plant[s].konten}</p>`;
+
+                    accContainer.innerHTML += `
+                        <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden mb-4">
+                            <button onclick="toggleAccordion(this)" class="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-nature-light/50 transition">
+                                <span class="font-serif text-2xl text-botanical">${plant[s].judul || s.toUpperCase()}</span>
+                                <svg class="w-6 h-6 text-botanical transform transition duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-width="2"/></svg>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="px-8 pb-4">
+                                    ${contentText}
                                 </div>
-                            `;
-                            this.ui.gallery.appendChild(card);
-                            found = true;
-                        }
-                        if (!found) {
-                            this.ui.gallery.innerHTML = '<p class="text-gray-500">Tidak ada koleksi tumbuhan ditemukan.</p>';
-                        }
-                        this.ui.galleryLoader.classList.add('hidden');
-                    } catch (error) {
-                        console.error("Error loading gallery:", error);
-                        this.ui.galleryLoader.innerHTML = '<p class="text-red-500">Gagal memuat koleksi.<br>Pastikan Anda menjalankan website ini melalui <b>server lokal</b> (bukan dengan membuka file langsung).</p>';
-                    }
-                },
-                async loadPlantDetail(plantKey) {
-                    try {
-                        const response = await fetch('data.json');
-                        if (!response.ok) throw new Error('Gagal memuat data');
-                        const data = await response.json();
-                        const plant = data[plantKey];
-                        if (!plant) throw new Error('Tumbuhan tidak ditemukan');
-
-                        document.title = `${plant.namaUmum || '(Tanpa Nama)'} | Flora Bicara`;
-                        
-                        const images = plant.gambar || {};
-                        const imageKeys = Object.keys(images);
-                        const mainImg = document.getElementById('plant-main-image');
-                        mainImg.src = imageKeys.length > 0 && images[imageKeys[0]] ? images[imageKeys[0]] : 'https://placehold.co/800x400/e2e8f0/94a3b8?text=No+Image';
-                        mainImg.onerror = function() {
-                            this.onerror = null;
-                            this.src = 'https://placehold.co/800x400/e2e8f0/94a3b8?text=No+Image';
-                        };
-
-                        document.getElementById('plant-common-name').textContent = plant.namaUmum || '(Tanpa Nama)';
-                        document.getElementById('plant-scientific-name').textContent = plant.namaIlmiah || '';
-                        document.getElementById('plant-short-description').textContent = plant.deskripsiSingkat || '';
-
-                        const statusEl = document.getElementById('conservation-status');
-                        statusEl.textContent = plant.statusKonservasi || '';
-                        statusEl.className = 'px-4 py-2 rounded-full text-sm font-semibold text-white ';
-                        if (plant.statusKonservasi && plant.statusKonservasi.toLowerCase().includes('rendah')) {
-                            statusEl.classList.add('bg-green-600');
-                        } else {
-                            statusEl.classList.add('bg-red-600');
-                        }
-                        
-                        this.ui.accordionContainer.innerHTML = '';
-                        const details = ['morfologi', 'ekologi', 'budidaya', 'manfaat', 'klasifikasi', 'referensi'];
-                        details.forEach(key => {
-                            if (plant[key] && plant[key].konten) {
-                                this.createAccordionItem(plant[key].judul || key, plant[key].konten, key === 'referensi');
-                            }
-                        });
-
-                        const galleryKeys = imageKeys.slice(1);
-                        if (galleryKeys.length > 0) {
-                            let galleryHTML = '<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">';
-                            galleryKeys.forEach(key => {
-                                const label = key.charAt(0).toUpperCase() + key.slice(1);
-                                const imgSrc = images[key] || 'https://placehold.co/400x300/e2e8f0/94a3b8?text=No+Image';
-                                galleryHTML += `<div><img src="${imgSrc}" alt="Gambar ${label}" class="rounded-lg shadow-md w-full h-auto object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x300/e2e8f0/94a3b8?text=No+Image';"><p class="text-center text-sm text-gray-600 mt-2">${label}</p></div>`;
-                            });
-                            galleryHTML += '</div>';
-                            this.createAccordionItem('Galeri Gambar', galleryHTML, false);
-                        }
-                    } catch (error) {
-                        console.error("Error loading plant detail:", error);
-                        this.showView('error');
-                        // Show a more helpful error message
-                        const errView = document.getElementById('error-view');
-                        if (errView) {
-                            errView.innerHTML += '<div class="mt-6 text-sm text-gray-500">Pastikan Anda menjalankan website ini melalui <b>server lokal</b> (bukan dengan membuka file langsung).</div>';
-                        }
-                    }
-                },
-                createAccordionItem(title, content, isReference) {
-                    const item = document.createElement('div');
-                    item.className = 'bg-white rounded-lg shadow-lg overflow-hidden';
-                    const contentHTML = isReference ? `<div class="referensi-konten">${content}</div>` : `<p>${content}</p>`;
-                    item.innerHTML = `
-                        <button class="w-full px-6 py-4 text-left font-serif text-xl text-brand-green hover:bg-gray-50 flex justify-between items-center transition">
-                            <span>${title}</span>
-                            <svg class="w-6 h-6 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                        <div class="accordion-content px-6 pb-6 text-gray-700 leading-relaxed">${contentHTML}</div>
+                            </div>
+                        </div>
                     `;
-                    this.ui.accordionContainer.appendChild(item);
-                    const button = item.querySelector('button');
-                    const contentDiv = item.querySelector('.accordion-content');
-                    const icon = item.querySelector('svg');
-                    button.addEventListener('click', () => {
-                        if (contentDiv.style.maxHeight) {
-                            contentDiv.style.maxHeight = null;
-                            icon.classList.remove('rotate-180');
-                        } else {
-                            contentDiv.style.maxHeight = contentDiv.scrollHeight + "px";
-                            icon.classList.add('rotate-180');
-                        }
-                    });
                 }
-            };
-            app.init();
+            });
+        }
+
+        function toggleAccordion(btn) {
+            const content = btn.nextElementSibling;
+            const icon = btn.querySelector('svg');
+            content.classList.toggle('open');
+            icon.classList.toggle('rotate-180');
+        }
+
+        function goHome() {
+            document.getElementById('home-view').classList.remove('hidden');
+            document.getElementById('detail-view').classList.add('hidden');
+        }
+
+        // Search Logic
+        document.getElementById('search').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = {};
+            for(let k in floraData) {
+                if(floraData[k].namaUmum.toLowerCase().includes(query) || floraData[k].namaIlmiah.toLowerCase().includes(query)) {
+                    filtered[k] = floraData[k];
+                }
+            }
+            renderGallery(filtered);
         });
+
+        loadData();
     </script>
 </body>
 </html>
